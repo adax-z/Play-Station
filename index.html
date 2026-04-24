@@ -655,7 +655,43 @@ body::after {
   box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(0,245,255,0.1);
 }
 
+
 .game-card-img {
+  width: 100% !important; /* Forces it to hit the left and right edges */
+  height: 100% !important; /* Forces it to hit the top and bottom of the wrap */
+  object-fit: cover; /* This is CRITICAL - it crops the image to fill the box */
+  display: block;
+  filter: brightness(0.85);
+  transition: filter 0.4s ease, transform 0.4s ease;
+}
+
+
+/* FORCE CENTER IMAGES */
+.game-card-img-wrap {
+    display: flex !important;
+    justify-content: center !important; /* Centers left-to-right */
+    align-items: center !important;     /* Centers top-to-bottom */
+    background: #0a0a1e !important;
+    height: 200px !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+}
+
+.game-card-img {
+    /* Use 'contain' to show the whole logo/pic in the center */
+    /* Use 'cover' if you want it to fill the box edges */
+    object-fit: contain !important; 
+    
+    width: auto !important;  /* Allows natural width */
+    height: 100% !important; /* Locks height to the box */
+    max-width: 100% !important;
+    display: block !important;
+    margin: 0 auto !important;
+}
+
+
+/*.game-card-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -663,18 +699,20 @@ body::after {
   display: block;
   filter: brightness(0.85);
   transition: filter 0.4s ease, transform 0.4s ease;
-}
+}*/
 .game-card:hover .game-card-img {
   filter: brightness(1);
   transform: scale(1.07);
 }
 
+
 .game-card-img-wrap {
   overflow: hidden;
   position: relative;
-  width: 100%;
+  width: 100%; /* Must be 100% of the card */
   height: 200px;
-  background: #0a0a1e;
+  background: #0a0a1e;/
+ /* margin: 0; /* Ensure no margins are pushing it in */
 }
 .game-card.featured .game-card-img-wrap {
   height: 100%;
@@ -1301,7 +1339,10 @@ footer {
       <div class="game-card reveal reveal-delay-1" data-cat="action">
         <div class="game-card-img-wrap">
           <span class="game-card-genre genre-action">Action</span>
-          <img src="https://image.api.playstation.com/vulcan/ap/rnd/202306/1219/60eca3ac155247f7c32dc3a52f2d6fe6ab07041d3b51e9e4.png" alt="Spider-Man 2" class="game-card-img" onerror="this.src='https://placehold.co/560x350/0d0d18/ff006e?text=SPIDER-MAN+2'">
+          <!-- <img src="assets/images/sm.jpg" alt="SPIDER-MAN 2">  -->
+          <img src="assets/images/spm.jpg" alt="SPIDER-MAN 2">
+
+          <!-- <img src="https://image.api.playstation.com/vulcan/ap/rnd/202306/1219/60eca3ac155247f7c32dc3a52f2d6fe6ab07041d3b51e9e4.png" alt="Spider-Man 2" class="game-card-img" onerror="this.src='https://placehold.co/560x350/0d0d18/ff006e?text=SPIDER-MAN+2'"> -->
         </div>
         <div class="game-card-body">
           <div class="game-rating">★★★★★ <span class="rating-count">(31.2k)</span></div>
@@ -1318,7 +1359,9 @@ footer {
       <div class="game-card reveal reveal-delay-2" data-cat="rpg">
         <div class="game-card-img-wrap">
           <span class="game-card-genre genre-rpg">RPG</span>
-          <img src="https://image.api.playstation.com/vulcan/ap/rnd/202211/0711/kh4MUIuMmHlktOHar3lROros.png" alt="Final Fantasy" class="game-card-img" onerror="this.src='https://placehold.co/560x350/0d0d18/7b00ff?text=FINAL+FANTASY+VII'">
+         <img src="assets/images/fan.jpg" alt="FINAL FANTASY"> 
+          
+          <!-- <img src="https://image.api.playstation.com/vulcan/ap/rnd/202211/0711/kh4MUIuMmHlktOHar3lROros.png" alt="Final Fantasy" class="game-card-img" onerror="this.src='https://placehold.co/560x350/0d0d18/7b00ff?text=FINAL+FANTASY+VII'"> -->
         </div>
         <div class="game-card-body">
           <div class="game-rating">★★★★★ <span class="rating-count">(18.5k)</span></div>
@@ -1338,7 +1381,9 @@ footer {
       <div class="game-card reveal reveal-delay-1" data-cat="adventure">
         <div class="game-card-img-wrap">
           <span class="game-card-genre genre-adventure">Adventure</span>
-          <img src="https://image.api.playstation.com/vulcan/ap/rnd/202107/3100/HO8vkO9pfLhwbfzRJhJkwuqM.png" alt="Horizon" class="game-card-img" onerror="this.src='https://placehold.co/560x350/0d0d18/00f5ff?text=HORIZON'">
+          <img src="assets/images/hr.jpg" alt="HORIZON"> 
+         
+          <!-- <img src="https://image.api.playstation.com/vulcan/ap/rnd/202107/3100/HO8vkO9pfLhwbfzRJhJkwuqM.png" alt="Horizon" class="game-card-img" onerror="this.src='https://placehold.co/560x350/0d0d18/00f5ff?text=HORIZON'"> -->
         </div>
         <div class="game-card-body">
           <div class="game-rating">★★★★☆ <span class="rating-count">(22.1k)</span></div>
@@ -1355,7 +1400,9 @@ footer {
       <div class="game-card reveal reveal-delay-2" data-cat="rpg">
         <div class="game-card-img-wrap">
           <span class="game-card-genre genre-rpg">RPG</span>
-          <img src="https://image.api.playstation.com/vulcan/ap/rnd/202110/2000/aGhoSwOsrvTaHLsXBouTpx0l.png" alt="Elden Ring" class="game-card-img" onerror="this.src='https://placehold.co/560x350/0d0d18/7b00ff?text=ELDEN+RING'">
+           <img src="assets/images/er.jpg" alt="ELDEN RING"> 
+
+          <!-- <img src="https://image.api.playstation.com/vulcan/ap/rnd/202110/2000/aGhoSwOsrvTaHLsXBouTpx0l.png" alt="Elden Ring" class="game-card-img" onerror="this.src='https://placehold.co/560x350/0d0d18/7b00ff?text=ELDEN+RING'"> -->
         </div>
         <div class="game-card-body">
           <div class="game-rating">★★★★★ <span class="rating-count">(45.6k)</span></div>
@@ -1371,11 +1418,14 @@ footer {
         </div>
       </div>
 
+
       <!-- GRAN TURISMO -->
       <div class="game-card reveal reveal-delay-3" data-cat="sport">
         <div class="game-card-img-wrap">
           <span class="game-card-genre genre-sport">Sport</span>
-          <img src="https://image.api.playstation.com/vulcan/ap/rnd/202109/1323/nYAMDkgIH9i2kFO4nEbHBpHi.png" alt="Gran Turismo" class="game-card-img" onerror="this.src='https://placehold.co/560x350/0d0d18/39ff14?text=GRAN+TURISMO+7'">
+          <img src="assets/images/gts.jpg" alt="GRAN TURISMO"> 
+        
+          <!-- <img src="https://image.api.playstation.com/vulcan/ap/rnd/202109/1323/nYAMDkgIH9i2kFO4nEbHBpHi.png" alt="Gran Turismo" class="game-card-img" onerror="this.src='https://placehold.co/560x350/0d0d18/39ff14?text=GRAN+TURISMO+7'"> -->
         </div>
         <div class="game-card-body">
           <div class="game-rating">★★★★☆ <span class="rating-count">(16.3k)</span></div>
@@ -1392,7 +1442,9 @@ footer {
       <div class="game-card reveal reveal-delay-1" data-cat="adventure">
         <div class="game-card-img-wrap">
           <span class="game-card-genre genre-adventure">Adventure</span>
-          <img src="https://image.api.playstation.com/vulcan/ap/rnd/202010/0600/rlHo6OLEzRnIuBSO9UYfa6jQ.png" alt="Ghost of Tsushima" class="game-card-img" onerror="this.src='https://placehold.co/560x350/0d0d18/00f5ff?text=GHOST+OF+TSUSHIMA'">
+          <img src="assets/images/GOT.jpg" alt="GHOST OF TSUSHIMA"> 
+         
+          <!-- <img src="https://image.api.playstation.com/vulcan/ap/rnd/202010/0600/rlHo6OLEzRnIuBSO9UYfa6jQ.png" alt="Ghost of Tsushima" class="game-card-img" onerror="this.src='https://placehold.co/560x350/0d0d18/00f5ff?text=GHOST+OF+TSUSHIMA'"> -->
         </div>
         <div class="game-card-body">
           <div class="game-rating">★★★★★ <span class="rating-count">(29.7k)</span></div>
@@ -1411,8 +1463,9 @@ footer {
       <!-- EA FC 25 (FIFA) -->
       <div class="game-card reveal reveal-delay-2" data-cat="sport">
         <div class="game-card-img-wrap">
+              <img src="assets/images/ffc.jpg" alt="EA FC 25"> 
           <span class="game-card-genre genre-sport">Sport</span>
-          <img src="https://image.api.playstation.com/vulcan/ap/rnd/202307/1918/1c03709b94ef49ddb1fb1b7b7d40e0f9fb2f61ef025c0bc6.png" alt="EA Sports FC 25" class="game-card-img" onerror="this.src='https://placehold.co/560x350/061a06/39ff14?text=EA+FC+25'">
+            <!-- <img src="https://image.api.playstation.com/vulcan/ap/rnd/202307/1918/1c03709b94ef49ddb1fb1b7b7d40e0f9fb2f61ef025c0bc6.png" alt="EA Sports FC 25" class="game-card-img" onerror="this.src='https://placehold.co/560x350/061a06/39ff14?text=EA+FC+25'">  -->
         </div>
         <div class="game-card-body">
           <div class="game-rating">★★★★☆ <span class="rating-count">(38.1k)</span></div>
@@ -1427,7 +1480,6 @@ footer {
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </section>
@@ -1436,7 +1488,9 @@ footer {
 <div class="video-section">
   <div class="video-bg-fallback"></div>
   <video autoplay muted loop playsinline>
-    <source src="assets/images/gaming-clip.mp4" type="video/mp4">
+    <!-- <source src="assets/images/gaming-clip.mp4" type="video/mp4"> -->
+<source src="assets/images/ps-game.mp4" type="video/mp4">
+
   </video>
   <div class="video-overlay">
     <h2 class="video-title">
@@ -1701,6 +1755,7 @@ window.addEventListener('scroll', () => {
   const bg = document.getElementById('heroBg');
   if (bg) bg.style.transform = `scale(1) translateY(${s * 0.3}px)`;
 });
+
 </script>
 </body>
 </html>

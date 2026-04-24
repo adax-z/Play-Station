@@ -6,3 +6,22 @@
 .reviews-section .row::-webkit-scrollbar {
   display:none;
 }
+
+/*.game-card-img-wrap {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  position: relative;
+
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  /*align-items: center;
+}*/
+
+/* .game-card-img { */
+  /* width: 100%; */
+  /* height: 100%; */
+  /* object-fit: cover; */
+  /* display: block; */
+/* } */
+/* This forces the container and image to ignore all other rules */
