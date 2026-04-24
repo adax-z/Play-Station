@@ -1,0 +1,8 @@
+ .reviews-section .row {
+  display:flex;
+  overflow-x:auto;
+  gap:1rem;
+}
+.reviews-section .row::-webkit-scrollbar {
+  display:none;
+}

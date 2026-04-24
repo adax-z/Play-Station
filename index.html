@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexus Play | PS Games STORE </title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+/* ─── ROOT TOKENS ─── */
+:root {
+  --neon-cyan: #00f5ff;
+  --neon-pink: #ff006e;
+  --neon-purple: #7b00ff;
+  --neon-green: #39ff14;
+  --ps-blue: #0070d1;
+  --black: #040408;
+  --grey-dark: #0d0d18;
+  --grey-mid: #1a1a2e;
+  --grey-light: #16213e;
+  --white: #ffffff;
+  --text-muted: rgba(255,255,255,0.5);
+  --card-bg: rgba(10,10,30,0.92);
+  --glass: rgba(255,255,255,0.03);
+  --border-glow: rgba(0,245,255,0.2);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background-color: #07071a;
+  color: var(--white);
+  font-family: 'Exo 2', sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/*  GAMING BACKGROUND  */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(123,0,255,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(0,245,255,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(255,0,110,0.05) 0%, transparent 60%),
+    linear-gradient(160deg, #07071a 0%, #0b0b28 40%, #080820 70%, #07071a 100%);
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(0,245,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,245,255,0.025) 1px, transparent 1px),
+    linear-gradient(rgba(123,0,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(123,0,255,0.015) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 20px 20px, 20px 20px;
+  animation: gridShift 20s linear infinite;
+  mask-image: radial-gradient(ellipse 100% 100% at 50% 0%, black 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 0%, black 30%, transparent 80%);
+}
+@keyframes gridShift { from { background-position: 0 0, 0 0, 0 0, 0 0; } to { background-position: 80px 80px, 80px 80px, 20px 20px, 20px 20px; } }
+
+/* CUSTOM CURSOR */
+.cursor {
+  width: 12px; height: 12px;
+  background: var(--neon-cyan);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999;
+  transition: transform 0.1s;
+  box-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+}
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1px solid rgba(0,245,255,0.5);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 99998;
+  transition: all 0.15s ease;
+}
+
+/* LOADING SCREEN */
+/*#loader {
+  position: fixed;
+  inset: 0;
+  background: var(--black);
+  z-index: 99997;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}*/
+
+
+/*below*/
+/*#loader {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    #040408 0%,
+    #07071a 30%,
+    #0070d1 70%,
+    #040408 100%
+  );
+  z-index: 99997;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 4.8s ease, visibility 4.8s ease;
+}*/
+
+#loader {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 70% 30%, rgba(0,112,209,0.12), transparent 60%),
+    radial-gradient(circle at 30% 80%, rgba(0,112,209,0.08), transparent 70%),
+    linear-gradient(160deg, #040408 0%, #07071a 60%, #053054 100%);
+  z-index: 99997;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 4.2s ease, visibility 4.2s ease;
+}
+
+#loader::before {
+  content: '';
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: rgba(0,112,209,0.25);
+  filter: blur(120px);
+  border-radius: 30%;
+  animation: loaderGlow 4s ease-in-out infinite;
+}
+
+@keyframes loaderGlow {
+  0%,100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.4); opacity: 1; }
+}
+/* above */
+
+#loader.hidden { opacity: 0; visibility: hidden; }
+
+.loader-logo {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 900;
+  letter-spacing: 0.5rem;
+  color: var(--white);
+  animation: logoPulse 2s ease-in-out infinite;
+}
+.loader-logo span { color: var(--neon-cyan); }
+
+@keyframes logoPulse {
+  0%,100% { text-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-cyan); }
+  50% { text-shadow: 0 0 5px var(--neon-cyan); }
+}
+
+.loader-bar-wrap {
+  width: clamp(200px, 40vw, 400px);
+  height: 2px;
+  background: rgba(255,255,255,0.1);
+  margin-top: 2.5rem;
+  overflow: hidden;
+  border-radius: 99px;
+}
+.loader-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+  width: 0%;
+  border-radius: 99px;
+  transition: width 0.05s linear;
+  box-shadow: 0 0 12px var(--neon-cyan);
+}
+.loader-text {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.25rem;
+  color: var(--text-muted);
+  margin-top: 1rem;
+  text-transform: uppercase;
+}
+
+.loader-symbols {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.ps-sym {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  animation: symPop 2.4s ease-in-out infinite;
+}
+.ps-sym:nth-child(1) { background: rgba(0,245,255,0.15); color: var(--neon-cyan); border: 1px solid rgba(0,245,255,0.3); animation-delay: 0s; }
+.ps-sym:nth-child(2) { background: rgba(255,0,110,0.15); color: var(--neon-pink); border: 1px solid rgba(255,0,110,0.3); animation-delay: 0.2s; }
+.ps-sym:nth-child(3) { background: rgba(123,0,255,0.15); color: var(--neon-purple); border: 1px solid rgba(123,0,255,0.3); animation-delay: 0.4s; }
+.ps-sym:nth-child(4) { background: rgba(57,255,20,0.15); color: var(--neon-green); border: 1px solid rgba(57,255,20,0.3); animation-delay: 0.6s; }
+@keyframes symPop { 0%,100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.2); opacity: 1; } }
+
+.scan-lines {
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ─── NOISE OVERLAY ─── */
+.noise {
+  position: fixed;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ─── AMBIENT GLOWS ─── */
+.ambient {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+}
+.ambient-1 { width: 700px; height: 700px; background: rgba(123,0,255,0.07); top: -250px; left: -200px; }
+.ambient-2 { width: 600px; height: 600px; background: rgba(0,245,255,0.06); bottom: -200px; right: -200px; }
+.ambient-3 { width: 500px; height: 500px; background: rgba(255,0,110,0.04); top: 50%; left: 50%; transform: translate(-50%,-50%); }
+
+/* ─── NAVBAR ─── */
+.navbar {
+  background: rgba(4,4,8,0.85);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(0,245,255,0.08);
+  padding: 1.2rem 0;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.navbar.scrolled {
+  background: rgba(4,4,8,0.97);
+  border-bottom-color: rgba(0,245,255,0.2);
+}
+.navbar-brand {
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
+  font-size: 1.1rem;
+  letter-spacing: 0.3rem;
+  color: var(--white) !important;
+}
+.navbar-brand .brand-dot { color: var(--neon-cyan); }
+
+.nav-link {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.15rem;
+  color: var(--text-muted) !important;
+  text-transform: uppercase;
+  transition: color 0.3s, text-shadow 0.3s;
+  padding: 0.4rem 1rem !important;
+}
+.nav-link:hover {
+  color: var(--neon-cyan) !important;
+  text-shadow: 0 0 15px var(--neon-cyan);
+}
+
+.btn-neon {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.15rem;
+  text-transform: uppercase;
+  border: 1px solid var(--neon-cyan);
+  color: var(--neon-cyan);
+  background: transparent;
+  padding: 0.45rem 1.5rem;
+  border-radius: 99px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.btn-neon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--neon-cyan);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+  z-index: -1;
+}
+.btn-neon:hover {
+  color: var(--black);
+  box-shadow: 0 0 20px rgba(0,245,255,0.5);
+}
+.btn-neon:hover::before { transform: scaleX(1); }
+
+.btn-neon-pink {
+  border-color: var(--neon-pink);
+  color: var(--neon-pink);
+}
+.btn-neon-pink::before { background: var(--neon-pink); }
+.btn-neon-pink:hover { box-shadow: 0 0 20px rgba(255,0,110,0.5); }
+
+/* ─── HERO ─── */
+.hero {
+  height: 100vh;
+  min-height: 700px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(105deg, rgba(7,7,26,0.92) 0%, rgba(7,7,26,0.65) 45%, rgba(7,7,26,0.85) 100%),
+    url('https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1600&q=80&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center 30%;
+  transform: scale(1.05);
+  transition: transform 8s ease-out;
+}
+.hero-bg.zoomed { transform: scale(1); }
+
+.hero-grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* PS5 PRO BADGE  */
+.hero-ps5-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(0,245,255,0.25);
+  backdrop-filter: blur(12px);
+  border-radius: 4px;
+  padding: 0.45rem 1rem 0.45rem 0.6rem;
+  margin-bottom: 1.4rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 1.2s forwards;
+  position: relative;
+  overflow: hidden;
+}
+.hero-ps5-badge::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--neon-cyan), var(--neon-purple));
+  box-shadow: 0 0 10px var(--neon-cyan);
+}
+.ps5-badge-icon {
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
+  font-size: 0.95rem;
+  background: linear-gradient(135deg, #fff 0%, var(--neon-cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.05em;
+}
+.ps5-badge-text {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.25rem;
+  color: var(--white);
+  text-transform: uppercase;
+}
+.ps5-badge-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--neon-cyan);
+  box-shadow: 0 0 8px var(--neon-cyan);
+  flex-shrink: 0;
+}
+.ps5-badge-sub {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.2rem;
+  color: rgba(0,245,255,0.6);
+  text-transform: uppercase;
+}
+
+.hero-eyebrow {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.4rem;
+  color: var(--neon-cyan);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 1.5s forwards;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--neon-cyan);
+  box-shadow: 0 0 8px var(--neon-cyan);
+}
+
+.hero-title {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(3rem, 8vw, 7rem);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 1.7s forwards;
+}
+.hero-title .line-1 { display: block; }
+.hero-title .line-2 {
+  display: block;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(0,245,255,0.5);
+}
+.hero-title .line-3 {
+  display: block;
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 1rem;
+  color: var(--text-muted);
+  max-width: 480px;
+  line-height: 1.7;
+  margin: 1.5rem 0 2.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 1.9s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 2.1s forwards;
+}
+
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 2;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 2.5s forwards;
+}
+.scroll-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, var(--neon-cyan), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+.hero-stats {
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  z-index: 2;
+  opacity: 0;
+  animation: fadeRight 0.8s ease 2.3s forwards;
+}
+.stat-item { text-align: right; }
+.stat-num {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--neon-cyan);
+  text-shadow: 0 0 20px rgba(0,245,255,0.5);
+}
+.stat-label {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.2rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeRight { from { opacity: 0; transform: translateY(-50%) translateX(30px); } to { opacity: 1; transform: translateY(-50%) translateX(0); } }
+
+/* SECTION COMMON */
+.section-eyebrow {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.4rem;
+  color: var(--neon-cyan);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.section-eyebrow::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--neon-cyan);
+}
+.section-title {
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  letter-spacing: -0.02em;
+}
+
+/* TICKER */
+.ticker-wrap {
+  background: rgba(7,7,26,0.8);
+  border-top: 1px solid rgba(0,245,255,0.12);
+  border-bottom: 1px solid rgba(123,0,255,0.12);
+  padding: 0.9rem 0;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  position: relative;
+}
+.ticker-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(7,7,26,0.9) 0%, transparent 8%, transparent 92%, rgba(7,7,26,0.9) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+.ticker-track {
+  display: flex;
+  white-space: nowrap;
+  align-items: center;
+  animation: tickerScroll 35s linear infinite;
+}
+.ticker-item {
+  padding: 0 2.5rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.15rem;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  position: relative;
+}
+.ticker-item:nth-child(8n+1)  { color: var(--neon-cyan);   text-shadow: 0 0 10px rgba(0,245,255,0.7), 0 0 25px rgba(0,245,255,0.4); }
+.ticker-item:nth-child(8n+3)  { color: var(--neon-pink);   text-shadow: 0 0 10px rgba(255,0,110,0.7), 0 0 25px rgba(255,0,110,0.4); }
+.ticker-item:nth-child(8n+5)  { color: var(--neon-purple); text-shadow: 0 0 10px rgba(123,0,255,0.7), 0 0 25px rgba(123,0,255,0.4); }
+.ticker-item:nth-child(8n+7)  { color: var(--neon-green);  text-shadow: 0 0 10px rgba(57,255,20,0.7),  0 0 25px rgba(57,255,20,0.4); }
+.ticker-item:nth-child(8n+2)  { color: rgba(0,245,255,0.35);   text-shadow: 0 0 6px rgba(0,245,255,0.2); }
+.ticker-item:nth-child(8n+4)  { color: rgba(255,0,110,0.35);   text-shadow: 0 0 6px rgba(255,0,110,0.2); }
+.ticker-item:nth-child(8n+6)  { color: rgba(123,0,255,0.35);   text-shadow: 0 0 6px rgba(123,0,255,0.2); }
+.ticker-item:nth-child(8n+8)  { color: rgba(57,255,20,0.35);    text-shadow: 0 0 6px rgba(57,255,20,0.2); }
+.ticker-item:hover { filter: brightness(1.5) drop-shadow(0 0 8px currentColor); transform: scaleY(1.1); }
+.ticker-sep {
+  font-size: 0.6rem;
+  padding: 0 0.3rem;
+  color: rgba(255,255,255,0.2);
+  align-self: center;
+}
+@keyframes tickerScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.ticker-track:hover { animation-play-state: paused; }
+
+/*  FILTER PILLS  */
+.filter-pills {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 1.5rem 0 2.5rem;
+}
+.pill {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.12rem;
+  text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--text-muted);
+  background: transparent;
+  padding: 0.4rem 1.2rem;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.pill:hover, .pill.active {
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+  background: rgba(0,245,255,0.06);
+  box-shadow: 0 0 12px rgba(0,245,255,0.15);
+}
+
+/*  GAME CARDS  */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.game-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+}
+.game-card:hover {
+  transform: translateY(-12px) scale(1.02);
+  border-color: rgba(0,245,255,0.3);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 30px rgba(0,245,255,0.1);
+}
+
+.game-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  filter: brightness(0.85);
+  transition: filter 0.4s ease, transform 0.4s ease;
+}
+.game-card:hover .game-card-img {
+  filter: brightness(1);
+  transform: scale(1.07);
+}
+
+.game-card-img-wrap {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 200px;
+  background: #0a0a1e;
+}
+.game-card.featured .game-card-img-wrap {
+  height: 100%;
+  min-height: 280px;
+}
+.game-card-img-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 55%;
+  background: linear-gradient(to top, #0a0a1e, transparent);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.game-card-genre {
+  position: absolute;
+  top: 1rem; left: 1rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2rem;
+  text-transform: uppercase;
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.15);
+  z-index: 2;
+}
+.genre-action { color: var(--neon-pink); border-color: rgba(255,0,110,0.3); }
+.genre-rpg { color: var(--neon-purple); border-color: rgba(123,0,255,0.3); }
+.genre-adventure { color: var(--neon-cyan); border-color: rgba(0,245,255,0.3); }
+.genre-sport { color: var(--neon-green); border-color: rgba(57,255,20,0.3); }
+
+.game-card-body { padding: 1.25rem; }
+.game-card-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  letter-spacing: 0.03em;
+}
+.game-card-studio {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1rem;
+  margin-bottom: 1rem;
+}
+.game-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.game-price {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--neon-cyan);
+}
+.game-price.sale { color: var(--neon-green); }
+.game-price-old {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-decoration: line-through;
+  margin-right: 0.5rem;
+}
+
+.btn-cart {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  border: 1px solid rgba(0,245,255,0.4);
+  color: var(--neon-cyan);
+  background: rgba(0,245,255,0.06);
+  padding: 0.4rem 1rem;
+  border-radius: 99px;
+  transition: all 0.3s;
+}
+.btn-cart:hover {
+  background: var(--neon-cyan);
+  color: var(--black);
+  box-shadow: 0 0 20px rgba(0,245,255,0.5);
+}
+
+.game-card:hover {
+  transform: translateY(-12px) scale(1.02);
+  border-color: rgba(0,245,255,0.5);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.7),
+    0 0 40px rgba(0,245,255,0.4),
+    0 0 80px rgba(0,245,255,0.2);
+}
+
+
+
+.game-rating {
+  font-size: 0.7rem;
+  color: #ffcc00;
+  letter-spacing: 0.05rem;
+  margin-bottom: 0.75rem;
+}
+.rating-count { color: var(--text-muted); margin-left: 0.3rem; }
+
+/* FEATURED CARD */
+.game-card.featured {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.game-card.featured .game-card-img-wrap { height: 100%; }
+.game-card.featured .game-card-img { height: 100%; aspect-ratio: unset; }
+.game-card.featured .game-card-body {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.game-card.featured .game-card-title { font-size: 1.4rem; margin-bottom: 0.5rem; }
+.game-card.featured .game-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+/* VIDEO SECTION */
+.video-section {
+  position: relative;
+  height: 70vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.video-section video, .video-bg-fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: brightness(0.4) saturate(0.8);
+  transition: filter 0.8s ease;
+}
+.video-bg-fallback {
+  background: linear-gradient(135deg, #040408 0%, #0d0d18 30%, #1a0025 60%, #040408 100%);
+}
+.video-section:hover video { filter: brightness(0.55) saturate(1.1); }
+.video-overlay {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+.video-title {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(2.5rem, 7vw, 6rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.video-title .stroke {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,0.4);
+}
+.video-title .filled {
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink), var(--neon-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.play-btn {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  border: 2px solid rgba(0,245,255,0.6);
+  background: rgba(0,245,255,0.08);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem auto;
+  cursor: pointer;
+  transition: all 0.3s;
+  backdrop-filter: blur(8px);
+}
+.play-btn:hover {
+  background: rgba(0,245,255,0.2);
+  box-shadow: 0 0 30px rgba(0,245,255,0.4);
+  transform: scale(1.1);
+}
+.play-btn svg { margin-left: 4px; }
+
+/* ACCESSORIES */
+.acc-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+.acc-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.acc-card:hover { transform: translateY(-10px); }
+.acc-card:hover::before { opacity: 1; }
+
+.acc-card.cyan::before { box-shadow: inset 0 0 0 1px rgba(0,245,255,0.3), 0 0 40px rgba(0,245,255,0.1); }
+.acc-card.pink::before { box-shadow: inset 0 0 0 1px rgba(255,0,110,0.3), 0 0 40px rgba(255,0,110,0.1); }
+.acc-card.purple::before { box-shadow: inset 0 0 0 1px rgba(123,0,255,0.3), 0 0 40px rgba(123,0,255,0.1); }
+.acc-card.green::before { box-shadow: inset 0 0 0 1px rgba(57,255,20,0.3), 0 0 40px rgba(57,255,20,0.1); }
+
+.acc-img {
+  width: 160px; height: 160px;
+  object-fit: contain;
+  margin: 0 auto 1.5rem;
+  animation: floatAcc 4s ease-in-out infinite;
+  display: block;
+}
+.acc-card:nth-child(2) .acc-img { animation-delay: 1s; }
+.acc-card:nth-child(3) .acc-img { animation-delay: 2s; }
+.acc-card:nth-child(4) .acc-img { animation-delay: 3s; }
+@keyframes floatAcc {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-16px); }
+}
+
+.acc-name {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+.acc-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
+}
+.acc-price {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.2rem;
+  font-weight: 900;
+}
+.acc-price.cyan { color: var(--neon-cyan); }
+.acc-price.pink { color: var(--neon-pink); }
+.acc-price.purple { color: var(--neon-purple); }
+.acc-price.green { color: var(--neon-green); }
+
+/* REVIEWS  */
+.reviews-section { background: rgba(7,7,26,0.6); backdrop-filter: blur(12px); }
+.review-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: all 0.3s;
+}
+/*.review-card:hover {
+  border-color: rgba(0,245,255,0.2);
+  background: rgba(0,245,255,0.03);
+}*/
+.review-card:hover {
+  transform: translateY(-12px) scale(1.02);
+  border-color: rgba(0,245,255,0.5);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.7),
+    0 0 40px rgba(0,245,255,0.4),
+    0 0 80px rgba(0,245,255,0.2);
+}
+
+.review-stars { color: #ffcc00; font-size: 1rem; letter-spacing: 0.2rem; }
+.review-text {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.8;
+  font-style: italic;
+  margin: 1rem 0;
+}
+.review-author {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.2rem;
+  color: var(--neon-cyan);
+  text-transform: uppercase;
+}
+.review-game {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* MARQUEE HUGE TEXT */
+.marquee-section {
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(7,7,26,0) 0%, rgba(7,7,26,0.6) 30%, rgba(7,7,26,0.6) 70%, rgba(7,7,26,0) 100%);
+  padding: 0.5rem 0;
+  position: relative;
+}
+.marquee-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(0,245,255,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.marquee-track {
+  display: flex;
+  white-space: nowrap;
+  align-items: center;
+  animation: marqueeScroll 22s linear infinite;
+}
+.marquee-word {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(3.5rem, 10vw, 8.5rem);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: inline-block;
+  padding: 0 0.6em;
+  line-height: 1.1;
+}
+.marquee-word.style-a {
+  background: linear-gradient(90deg, var(--neon-cyan) 0%, #ffffff 50%, var(--neon-cyan) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 18px rgba(0,245,255,0.9)) drop-shadow(0 0 40px rgba(0,245,255,0.5));
+  animation: marqueeShine 3s linear infinite;
+}
+.marquee-word.style-b {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--neon-pink);
+  filter: drop-shadow(0 0 10px rgba(255,0,110,0.8)) drop-shadow(0 0 30px rgba(255,0,110,0.4));
+}
+.marquee-word.style-c {
+  background: linear-gradient(90deg, var(--neon-purple) 0%, var(--neon-pink) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 14px rgba(123,0,255,0.8)) drop-shadow(0 0 35px rgba(123,0,255,0.4));
+}
+.marquee-sep {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  color: var(--neon-cyan);
+  opacity: 0.4;
+  align-self: center;
+  filter: drop-shadow(0 0 8px var(--neon-cyan));
+  padding: 0 0.2em;
+}
+@keyframes marqueeScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes marqueeShine {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* FOOTER  */
+footer {
+  background: #020204;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 4rem 0 2rem;
+}
+.footer-brand {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.2rem;
+  font-weight: 900;
+  letter-spacing: 0.3rem;
+  color: var(--white);
+  margin-bottom: 1rem;
+}
+.footer-brand span { color: var(--neon-cyan); }
+.footer-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.8; max-width: 260px; }
+.footer-heading {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.3rem;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 1.25rem;
+}
+.footer-link {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  margin-bottom: 0.6rem;
+  transition: color 0.3s;
+}
+.footer-link:hover { color: var(--neon-cyan); }
+.newsletter-input {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 99px;
+  padding: 0.6rem 1.2rem;
+  color: var(--white);
+  font-family: 'Exo 2', sans-serif;
+  font-size: 0.85rem;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.3s;
+  margin-bottom: 0.75rem;
+}
+.newsletter-input:focus { border-color: var(--neon-cyan); }
+.newsletter-input::placeholder { color: rgba(255,255,255,0.25); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.05);
+  margin-top: 3rem;
+  padding-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.footer-copy {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.2);
+  font-family: 'Rajdhani', sans-serif;
+  letter-spacing: 0.1rem;
+}
+.footer-ps-symbols { display: flex; gap: 0.75rem; }
+.fps {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  opacity: 0.4;
+  transition: opacity 0.3s;
+}
+.fps:hover { opacity: 1; }
+.fps.c { background: rgba(0,245,255,0.1); color: var(--neon-cyan); border: 1px solid rgba(0,245,255,0.3); }
+.fps.p { background: rgba(255,0,110,0.1); color: var(--neon-pink); border: 1px solid rgba(255,0,110,0.3); }
+.fps.s { background: rgba(123,0,255,0.1); color: var(--neon-purple); border: 1px solid rgba(123,0,255,0.3); }
+.fps.t { background: rgba(57,255,20,0.1); color: var(--neon-green); border: 1px solid rgba(57,255,20,0.3); }
+
+
+/* UTILITY  */
+.neon-cyan { color: var(--neon-cyan); }
+.neon-pink { color: var(--neon-pink); }
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+@media (max-width: 768px) {
+  .game-card.featured { grid-column: span 1; display: block; }
+  .hero-stats { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- SCAN LINES -->
+<div class="scan-lines"></div>
+<div class="noise"></div>
+
+<!-- AMBIENT GLOWS -->
+<div class="ambient ambient-1"></div>
+<div class="ambient ambient-2"></div>
+<div class="ambient ambient-3"></div>
+
+<!-- ─── LOADER ─── -->
+<div id="loader">
+  <div class="loader-logo">NEXUS<span>PLAY</span></div>
+  <div class="loader-symbols">
+    <div class="ps-sym">△</div>
+    <div class="ps-sym">◯</div>
+    <div class="ps-sym">✕</div>
+    <div class="ps-sym">□</div>
+  </div>
+  <div class="loader-bar-wrap">
+    <div class="loader-bar" id="loaderBar"></div>
+  </div>
+  <div class="loader-text" id="loaderText">Initializing nexus...</div>
+</div>
+
+
+<!--  NAVBAR  -->
+<nav class="navbar navbar-expand-lg" id="navbar">
+  <div class="container">
+    <a class="navbar-brand" href="#">NEXUS<span class="brand-dot">·</span>PLAY</a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span style="display:block;width:22px;height:1px;background:rgba(255,255,255,0.6);margin:5px 0;"></span>
+      <span style="display:block;width:22px;height:1px;background:rgba(255,255,255,0.6);margin:5px 0;"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-center gap-1">
+        <li class="nav-item"><a class="nav-link" href="#games">Games</a></li>
+        <li class="nav-item"><a class="nav-link" href="#accessories">Accessories</a></li>
+        <li class="nav-item"><a class="nav-link" href="#reviews">Reviews</a></li>
+        <li class="nav-item ms-2"><a href="#games" class="btn-neon">Shop Now</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<header class="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-grid-overlay"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-ps5-badge">
+        <span class="ps5-badge-icon">PS5</span>
+        <span class="ps5-badge-text">PRO GAMES</span>
+        <span class="ps5-badge-dot"></span>
+        <span class="ps5-badge-sub">2026 EDITION</span>
+      </div>
+      <div class="hero-eyebrow">Next-Gen Gaming Store — 500+ Titles</div>
+      <h1 class="hero-title">
+        <span class="line-1">PLAY</span>
+        <span class="line-2">BEYOND</span>
+        <span class="line-3">LIMITS</span>
+      </h1>
+      <p class="hero-sub">The most immersive PS5 Pro game library ever assembled. Experience worlds built for the next generation.</p>
+      <div class="hero-actions">
+        <a href="#games" class="btn-neon">Explore Games</a>
+        <a href="#accessories" class="btn-neon btn-neon-pink">View Accessories</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-stats" id="heroStats">
+    <div class="stat-item">
+      <div class="stat-num">500+</div>
+      <div class="stat-label">Titles</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">4K</div>
+      <div class="stat-label">Ultra HD</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">120</div>
+      <div class="stat-label">FPS</div>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">
+    <div class="scroll-line"></div>
+  </div>
+</header>
+
+<!-- ─── TICKER ─── -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span class="ticker-item">God of War Ragnarök</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Spider-Man 2</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Final Fantasy VII Rebirth</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">FC 25 — FIFA</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Horizon Forbidden West</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">The Last of Us Part I</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Gran Turismo 7</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Elden Ring</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Ghost of Tsushima</span><span class="ticker-sep">✦</span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item">God of War Ragnarök</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Spider-Man 2</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Final Fantasy VII Rebirth</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">FC 25 — FIFA</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Horizon Forbidden West</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">The Last of Us Part I</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Gran Turismo 7</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Elden Ring</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Ghost of Tsushima</span><span class="ticker-sep">✦</span>
+  </div>
+</div>
+
+<!-- ─── GAMES ─── -->
+<section id="games" class="py-5" style="padding-top:5rem!important;">
+  <div class="container">
+    <div class="text-center mb-4 reveal">
+      <div class="section-eyebrow justify-content-center mb-2">Featured Titles</div>
+      <h2 class="section-title">LATEST RELEASES</h2>
+    </div>
+
+    <div class="filter-pills reveal">
+      <button class="pill active" data-filter="all">All</button>
+      <button class="pill" data-filter="action">Action</button>
+      <button class="pill" data-filter="rpg">RPG</button>
+      <button class="pill" data-filter="adventure">Adventure</button>
+      <button class="pill" data-filter="sport">Sport</button>
+    </div>
+
+    <div class="games-grid" id="gamesGrid">
+
+      <!-- FEATURED -->
+      <div class="game-card featured reveal" data-cat="action">
+        <div class="game-card-img-wrap">
+          <span class="game-card-genre genre-action">Action</span>
+          <img src="https://image.api.playstation.com/vulcan/ap/rnd/202207/1210/4xJ8XB3bi888QTLZYdl7Oi0s.png" alt="God of War" class="game-card-img" onerror="this.src='https://placehold.co/560x350/0d0d18/00f5ff?text=GOD+OF+WAR'">
+        </div>
+        <div class="game-card-body">
+          <div class="game-rating">★★★★★ <span class="rating-count">(24.8k)</span></div>
+          <div class="game-card-title">GOD OF WAR RAGNARÖK</div>
+          <div class="game-card-studio">Santa Monica Studio</div>
+          <p class="game-desc">Kratos and Atreus must journey to each of the Nine Realms in search of answers as Asgardian forces prepare for a prophesied battle that will end the world.</p>
+          <div class="game-card-footer">
+            <div>
+              <span class="game-price-old">$69.99</span>
+              <span class="game-price sale">$49.99</span>
+            </div>
+            <button class="btn-cart">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SPIDER-MAN 2 -->
+      <div class="game-card reveal reveal-delay-1" data-cat="action">
+        <div class="game-card-img-wrap">
+          <span class="game-card-genre genre-action">Action</span>
+          <img src="https://image.api.playstation.com/vulcan/ap/rnd/202306/1219/60eca3ac155247f7c32dc3a52f2d6fe6ab07041d3b51e9e4.png" alt="Spider-Man 2" class="game-card-img" onerror="this.src='https://placehold.co/560x350/0d0d18/ff006e?text=SPIDER-MAN+2'">
+        </div>
+        <div class="game-card-body">
+          <div class="game-rating">★★★★★ <span class="rating-count">(31.2k)</span></div>
+          <div class="game-card-title">SPIDER-MAN 2</div>
+          <div class="game-card-studio">Insomniac Games</div>
+          <div class="game-card-footer">
+            <span class="game-price">$69.99</span>
+            <button class="btn-cart">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- FINAL FANTASY -->
+      <div class="game-card reveal reveal-delay-2" data-cat="rpg">
+        <div class="game-card-img-wrap">
+          <span class="game-card-genre genre-rpg">RPG</span>
+          <img src="https://image.api.playstation.com/vulcan/ap/rnd/202211/0711/kh4MUIuMmHlktOHar3lROros.png" alt="Final Fantasy" class="game-card-img" onerror="this.src='https://placehold.co/560x350/0d0d18/7b00ff?text=FINAL+FANTASY+VII'">
+        </div>
+        <div class="game-card-body">
+          <div class="game-rating">★★★★★ <span class="rating-count">(18.5k)</span></div>
+          <div class="game-card-title">FF VII REBIRTH</div>
+          <div class="game-card-studio">Square Enix</div>
+          <div class="game-card-footer">
+            <div>
+              <span class="game-price-old">$69.99</span>
+              <span class="game-price sale">$54.99</span>
+            </div>
+            <button class="btn-cart">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- HORIZON -->
+      <div class="game-card reveal reveal-delay-1" data-cat="adventure">
+        <div class="game-card-img-wrap">
+          <span class="game-card-genre genre-adventure">Adventure</span>
+          <img src="https://image.api.playstation.com/vulcan/ap/rnd/202107/3100/HO8vkO9pfLhwbfzRJhJkwuqM.png" alt="Horizon" class="game-card-img" onerror="this.src='https://placehold.co/560x350/0d0d18/00f5ff?text=HORIZON'">
+        </div>
+        <div class="game-card-body">
+          <div class="game-rating">★★★★☆ <span class="rating-count">(22.1k)</span></div>
+          <div class="game-card-title">HORIZON FORBIDDEN WEST</div>
+          <div class="game-card-studio">Guerrilla Games</div>
+          <div class="game-card-footer">
+            <span class="game-price">$39.99</span>
+            <button class="btn-cart">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ELDEN RING -->
+      <div class="game-card reveal reveal-delay-2" data-cat="rpg">
+        <div class="game-card-img-wrap">
+          <span class="game-card-genre genre-rpg">RPG</span>
+          <img src="https://image.api.playstation.com/vulcan/ap/rnd/202110/2000/aGhoSwOsrvTaHLsXBouTpx0l.png" alt="Elden Ring" class="game-card-img" onerror="this.src='https://placehold.co/560x350/0d0d18/7b00ff?text=ELDEN+RING'">
+        </div>
+        <div class="game-card-body">
+          <div class="game-rating">★★★★★ <span class="rating-count">(45.6k)</span></div>
+          <div class="game-card-title">ELDEN RING</div>
+          <div class="game-card-studio">FromSoftware</div>
+          <div class="game-card-footer">
+            <div>
+              <span class="game-price-old">$59.99</span>
+              <span class="game-price sale">$39.99</span>
+            </div>
+            <button class="btn-cart">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRAN TURISMO -->
+      <div class="game-card reveal reveal-delay-3" data-cat="sport">
+        <div class="game-card-img-wrap">
+          <span class="game-card-genre genre-sport">Sport</span>
+          <img src="https://image.api.playstation.com/vulcan/ap/rnd/202109/1323/nYAMDkgIH9i2kFO4nEbHBpHi.png" alt="Gran Turismo" class="game-card-img" onerror="this.src='https://placehold.co/560x350/0d0d18/39ff14?text=GRAN+TURISMO+7'">
+        </div>
+        <div class="game-card-body">
+          <div class="game-rating">★★★★☆ <span class="rating-count">(16.3k)</span></div>
+          <div class="game-card-title">GRAN TURISMO 7</div>
+          <div class="game-card-studio">Polyphony Digital</div>
+          <div class="game-card-footer">
+            <span class="game-price">$49.99</span>
+            <button class="btn-cart">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- GHOST OF TSUSHIMA -->
+      <div class="game-card reveal reveal-delay-1" data-cat="adventure">
+        <div class="game-card-img-wrap">
+          <span class="game-card-genre genre-adventure">Adventure</span>
+          <img src="https://image.api.playstation.com/vulcan/ap/rnd/202010/0600/rlHo6OLEzRnIuBSO9UYfa6jQ.png" alt="Ghost of Tsushima" class="game-card-img" onerror="this.src='https://placehold.co/560x350/0d0d18/00f5ff?text=GHOST+OF+TSUSHIMA'">
+        </div>
+        <div class="game-card-body">
+          <div class="game-rating">★★★★★ <span class="rating-count">(29.7k)</span></div>
+          <div class="game-card-title">GHOST OF TSUSHIMA</div>
+          <div class="game-card-studio">Sucker Punch</div>
+          <div class="game-card-footer">
+            <div>
+              <span class="game-price-old">$59.99</span>
+              <span class="game-price sale">$34.99</span>
+            </div>
+            <button class="btn-cart">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- EA FC 25 (FIFA) -->
+      <div class="game-card reveal reveal-delay-2" data-cat="sport">
+        <div class="game-card-img-wrap">
+          <span class="game-card-genre genre-sport">Sport</span>
+          <img src="https://image.api.playstation.com/vulcan/ap/rnd/202307/1918/1c03709b94ef49ddb1fb1b7b7d40e0f9fb2f61ef025c0bc6.png" alt="EA Sports FC 25" class="game-card-img" onerror="this.src='https://placehold.co/560x350/061a06/39ff14?text=EA+FC+25'">
+        </div>
+        <div class="game-card-body">
+          <div class="game-rating">★★★★☆ <span class="rating-count">(38.1k)</span></div>
+          <div class="game-card-title">EA SPORTS FC 25</div>
+          <div class="game-card-studio">EA Sports</div>
+          <div class="game-card-footer">
+            <div>
+              <span class="game-price-old">$69.99</span>
+              <span class="game-price sale">$49.99</span>
+            </div>
+            <button class="btn-cart">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── VIDEO SECTION ─── -->
+<div class="video-section">
+  <div class="video-bg-fallback"></div>
+  <video autoplay muted loop playsinline>
+    <source src="assets/images/gaming-clip.mp4" type="video/mp4">
+  </video>
+  <div class="video-overlay">
+    <h2 class="video-title">
+      <span class="stroke">IMMERSE</span><br>
+      <span class="filled">YOURSELF</span>
+    </h2>
+    <div>
+      <div class="play-btn" id="playBtn" title="Watch Trailer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+      </div>
+    </div>
+    <p style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;letter-spacing:0.3rem;color:rgba(255,255,255,0.4);text-transform:uppercase;">Witness the raw power of PS5 Pro</p>
+  </div>
+</div>
+
+<!-- ─── MARQUEE ─── -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <span class="marquee-word style-a">PLAY</span><span class="marquee-sep">✦</span><span class="marquee-word style-b">BEYOND</span><span class="marquee-sep">✦</span><span class="marquee-word style-c">LIMITS</span><span class="marquee-sep">◈</span><span class="marquee-word style-a">PLAY</span><span class="marquee-sep">✦</span><span class="marquee-word style-b">BEYOND</span><span class="marquee-sep">✦</span><span class="marquee-word style-c">LIMITS</span><span class="marquee-sep">◈</span><span class="marquee-word style-a">PLAY</span><span class="marquee-sep">✦</span><span class="marquee-word style-b">BEYOND</span><span class="marquee-sep">✦</span><span class="marquee-word style-c">LIMITS</span><span class="marquee-sep">◈</span><span class="marquee-word style-a">PLAY</span><span class="marquee-sep">✦</span><span class="marquee-word style-b">BEYOND</span><span class="marquee-sep">✦</span><span class="marquee-word style-c">LIMITS</span><span class="marquee-sep">◈</span>
+  </div>
+</div>
+
+<!-- ─── ACCESSORIES ─── -->
+<section id="accessories" class="py-5">
+  <div class="container">
+    <div class="text-center mb-5 reveal">
+      <div class="section-eyebrow justify-content-center mb-2">Elite Gear</div>
+      <h2 class="section-title">LEVEL UP YOUR SETUP</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-6 col-lg-3">
+        <div class="acc-card cyan reveal">
+          <img src="https://gmedia.playstation.com/is/image/SIEPDC/dualsense-edge-image-block-01-en-24aug22?$1200px$" alt="DualSense Edge" class="acc-img" onerror="this.src='https://placehold.co/160x160/0d0d18/00f5ff?text=CONTROLLER'">
+          <div class="acc-name">DualSense™ Edge</div>
+          <div class="acc-desc">Pro wireless controller with adaptive triggers.</div>
+          <div class="acc-price cyan">$199.99</div>
+          <button class="btn-neon mt-3 w-100">Add to Cart</button>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="acc-card pink reveal reveal-delay-1">
+          <img src="https://gmedia.playstation.com/is/image/SIEPDC/pulse-elite-headset-listing-thumb-01-en-21nov23?$800px$" alt="Pulse Elite" class="acc-img" onerror="this.src='https://placehold.co/160x160/0d0d18/ff006e?text=HEADSET'">
+          <div class="acc-name">Pulse Elite™</div>
+          <div class="acc-desc">Lossless audio with AI noise rejection.</div>
+          <div class="acc-price pink">$149.99</div>
+          <button class="btn-neon btn-neon-pink mt-3 w-100">Add to Cart</button>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="acc-card purple reveal reveal-delay-2">
+          <img src="https://gmedia.playstation.com/is/image/SIEPDC/playstation-vr2-image-block-01-en-15sep22?$1200px$" alt="PS VR2" class="acc-img" onerror="this.src='https://placehold.co/160x160/0d0d18/7b00ff?text=PS+VR2'">
+          <div class="acc-name">PS VR2</div>
+          <div class="acc-desc">Escape into new worlds in full 4K HDR.</div>
+          <div class="acc-price purple" style="color:var(--neon-purple);">$549.99</div>
+          <button class="btn-neon mt-3 w-100" style="border-color:var(--neon-purple);color:var(--neon-purple);">Add to Cart</button>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="acc-card green reveal reveal-delay-3">
+          <img src="assets/images/portal.png" alt="PlayStation Portal" class="acc-img" onerror="this.src='https://placehold.co/160x160/0d0d18/39ff14?text=PORTAL'">
+          <div class="acc-name">PS Portal™</div>
+          <div class="acc-desc">Remote Player for PS5 anywhere you go.</div>
+          <div class="acc-price green">$199.99</div>
+          <button class="btn-neon mt-3 w-100" style="border-color:var(--neon-green);color:var(--neon-green);">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── REVIEWS ─── -->
+<section id="reviews" class="reviews-section py-5">
+  <div class="container">
+    <div class="text-center mb-5 reveal">
+      <div class="section-eyebrow justify-content-center mb-2">Community</div>
+      <h2 class="section-title">PLAYER FEEDBACK</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4 reveal">
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"God of War Ragnarök is an absolute masterpiece. The combat, story and visuals are all next level. Nothing comes close."</p>
+          <div class="review-author">— Oscar Muller</div>
+          <div class="review-game">God of War Ragnarök</div>
+        </div>
+      </div>
+      <div class="col-md-4 reveal reveal-delay-1">
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Spider-Man 2 blew my mind. Web-swinging as Venom is absolutely insane. Best PS5 exclusive without a doubt."</p>
+          <div class="review-author">— Sarah Chen</div>
+          <div class="review-game">Marvel's Spider-Man 2</div>
+        </div>
+      </div>
+      <div class="col-md-4 reveal reveal-delay-2">
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Elden Ring ruined every other game for me. 300 hours in and still discovering new areas. From Software truly outdid themselves."</p>
+          <div class="review-author">— Carlos Diaz</div>
+          <div class="review-game">Elden Ring</div>
+        </div>
+      </div>
+
+<div class="col-md-4 reveal">
+  <div class="review-card">
+    <div class="review-stars">★★★★★</div>
+    <p class="review-text">"Interface feels futuristic and premium."</p>
+    <div class="review-author">— Ali Khan</div>
+    <div class="review-game">General</div>
+  </div>
+</div>
+
+<div class="col-md-4 reveal">
+  <div class="review-card">
+    <div class="review-stars">★★★★☆</div>
+    <p class="review-text">"Smooth animations and great UI flow."</p>
+    <div class="review-author">— Ros Verstappen</div>
+    <div class="review-game">UX Review</div>
+  </div>
+</div>
+
+
+<div class="col-md-4 reveal">
+  <div class="review-card">
+    <div class="review-stars">★★★★★</div>
+    <p class="review-text">"Realistic and great flow."</p>
+    <div class="review-author">— Adam Ali</div>
+    <div class="review-game">EA FC 25</div>
+  </div>
+</div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <div class="footer-brand">NEXUS<span>·</span>PLAY</div>
+        <p class="footer-desc">Pushing the boundaries of play since 1994. The 2026 Nexus edition — built for the next generation.</p>
+        <div class="footer-ps-symbols mt-3">
+          <div class="fps c">△</div>
+          <div class="fps p">◯</div>
+          <div class="fps s">✕</div>
+          <div class="fps t">□</div>
+        </div>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Games</div>
+        <a href="#" class="footer-link">New Releases</a>
+        <a href="#" class="footer-link">Best Sellers</a>
+        <a href="#" class="footer-link">PS Plus</a>
+        <a href="#" class="footer-link">Deals</a>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Support</div>
+        <a href="#" class="footer-link">Order Status</a>
+        <a href="#" class="footer-link">Returns</a>
+        <a href="#" class="footer-link">Warranty</a>
+        <a href="#" class="footer-link">Contact Us</a>
+      </div>
+      <div class="col-lg-4">
+        <div class="footer-heading">Stay in the Game</div>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1rem;">Get early access to deals and new releases.</p>
+        <input type="email" class="newsletter-input" placeholder="Enter your email address">
+        <button class="btn-neon w-100">Join the Nexus</button>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 Nexus Play · PlayStation — Designed for the Next Generation</div>
+      <div class="footer-copy">Terms · Privacy · Cookies</div>
+    </div>
+  </div>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    
+//  LOADER 
+const loaderMsgs = ['Initializing nexus...', 'Loading ...', 'Calibrating neon...', 'Almost ready...', 'Welcome, Gamers.'];
+let progress = 0;
+const bar = document.getElementById('loaderBar');
+const loaderText = document.getElementById('loaderText');
+const loader = document.getElementById('loader');
+let msgIdx = 0;
+
+const loaderInterval = setInterval(() => {
+  progress += Math.random() * 18 + 4;
+  if (progress >= 100) {
+    progress = 100;
+    clearInterval(loaderInterval);
+    loaderText.textContent = 'Welcome, Player.';
+    setTimeout(() => {
+      loader.classList.add('hidden');
+      document.getElementById('heroBg').classList.add('zoomed');
+    }, 600);
+  } else {
+    const mi = Math.floor((progress / 100) * (loaderMsgs.length - 1));
+    if (mi !== msgIdx) { msgIdx = mi; loaderText.textContent = loaderMsgs[mi]; }
+  }
+  bar.style.width = progress + '%';
+}, 120);
+
+//  CUSTOM CURSOR 
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx - 6 + 'px'; cursor.style.top = my - 6 + 'px'; });
+(function animRing() { rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12; ring.style.left = rx - 18 + 'px'; ring.style.top = ry - 18 + 'px'; requestAnimationFrame(animRing); })();
+
+document.querySelectorAll('a,button,.game-card,.acc-card,.pill').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.style.transform = 'scale(2)'; ring.style.transform = 'scale(1.5)'; });
+  el.addEventListener('mouseleave', () => { cursor.style.transform = 'scale(1)'; ring.style.transform = 'scale(1)'; });
+});
+
+// NAVBAR SCROLL 
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// SCROLL REVEAL
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+revealEls.forEach(el => observer.observe(el));
+
+// FILTER PILLS 
+document.querySelectorAll('.pill').forEach(pill => {
+  pill.addEventListener('click', function() {
+    document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    this.classList.add('active');
+    const filter = this.dataset.filter;
+    document.querySelectorAll('#gamesGrid .game-card').forEach(card => {
+      const show = filter === 'all' || card.dataset.cat === filter;
+      card.style.transition = 'opacity 0.4s, transform 0.4s';
+      card.style.opacity = show ? '1' : '0.2';
+      card.style.transform = show ? '' : 'scale(0.96)';
+      card.style.pointerEvents = show ? '' : 'none';
+    });
+  });
+});
+
+// ADD TO CART FEEDBACK 
+document.querySelectorAll('.btn-cart, .acc-card button').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const orig = this.textContent;
+    this.textContent = 'Added!';
+    this.style.background = 'var(--neon-cyan)';
+    this.style.color = 'var(--black)';
+    setTimeout(() => { this.textContent = orig; this.style.background = ''; this.style.color = ''; }, 1800);
+  });
+});
+
+// PARALLAX HERO BG 
+window.addEventListener('scroll', () => {
+  const s = window.scrollY;
+  const bg = document.getElementById('heroBg');
+  if (bg) bg.style.transform = `scale(1) translateY(${s * 0.3}px)`;
+});
+</script>
+</body>
+</html>
